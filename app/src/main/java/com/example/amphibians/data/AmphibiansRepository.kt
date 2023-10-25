@@ -1,14 +1,15 @@
 package com.example.amphibians.data
 
-import com.example.amphibians.model.AmphibiansItem
+import com.example.amphibians.model.Amphibian
 import com.example.amphibians.network.AmphibiansApiService
 
 interface AmphibiansRepository {
-    suspend fun getAmphibiansItems(): List<AmphibiansItem>
+    suspend fun getAmphibians(): List<Amphibian>
 }
 
-class NetworkAmphibiansRepository(
+class DefaultAmphibiansRepository(
     private val amphibiansApiService: AmphibiansApiService
-): AmphibiansRepository {
-    override suspend fun getAmphibiansItems(): List<AmphibiansItem> = amphibiansApiService.getAmphibiansItems()
+) : AmphibiansRepository {
+    /** Retrieves list of amphibians from underlying data source */
+    override suspend fun getAmphibians(): List<Amphibian> = amphibiansApiService.getAmphibians()
 }

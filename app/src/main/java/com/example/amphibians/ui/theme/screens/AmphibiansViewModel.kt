@@ -11,42 +11,43 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.amphibians.AmphibiansApplication
 import com.example.amphibians.data.AmphibiansRepository
-import com.example.amphibians.model.AmphibiansItem
+import com.example.amphibians.model.Amphibian
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
-sealed interface AmphibianUiState {
-    data class Success(val items:List<AmphibiansItem>) :AmphibianUiState
-    object Error: AmphibianUiState
-    object Loading : AmphibianUiState
+sealed interface AmphibiansUiState {
+    data class Success(val amphibians: List<Amphibian>) : AmphibiansUiState
+    object Error : AmphibiansUiState
+    object Loading : AmphibiansUiState
 }
 class AmphibiansViewModel (private val amphibiansRepository: AmphibiansRepository): ViewModel()
 {
-    var amphibianUiState: AmphibianUiState by mutableStateOf(AmphibianUiState.Loading)
+    var amphibiansUiState: AmphibiansUiState by mutableStateOf(AmphibiansUiState.Loading)
         private set
 
     init {
-        getAmphibiansItems()
+        getAmphibians()
     }
 
-    fun getAmphibiansItems(){
+    fun getAmphibians() {
         viewModelScope.launch {
-            amphibianUiState = AmphibianUiState.Loading
-            amphibianUiState = try {
-                AmphibianUiState.Success(amphibiansRepository.getAmphibiansItems())
-            }catch (e: IOException) {
-                AmphibianUiState.Error
+            amphibiansUiState = AmphibiansUiState.Loading
+            amphibiansUiState = try {
+                AmphibiansUiState.Success(amphibiansRepository.getAmphibians())
+            } catch (e: IOException) {
+                AmphibiansUiState.Error
             } catch (e: HttpException) {
-                AmphibianUiState.Error
+                AmphibiansUiState.Error
             }
         }
     }
 
-    companion object{
+    companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val application = (this[APPLICATION_KEY] as AmphibiansApplication)
+                val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
+                        as AmphibiansApplication)
                 val amphibiansRepository = application.container.amphibiansRepository
                 AmphibiansViewModel(amphibiansRepository = amphibiansRepository)
             }

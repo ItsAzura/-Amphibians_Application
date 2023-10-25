@@ -1,9 +1,9 @@
 package com.example.amphibians.network
 
-import com.example.amphibians.model.AmphibiansItem
+import com.example.amphibians.model.Amphibian
 import retrofit2.http.GET
 
 interface AmphibiansApiService {
-    @GET("items")
-    suspend fun getAmphibiansItems(): List<AmphibiansItem>
+    @GET("amphibians")
+    suspend fun getAmphibians(): List<Amphibian>
 }

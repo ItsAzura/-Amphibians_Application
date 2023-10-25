@@ -11,9 +11,9 @@ interface AppContainer{
 }
 
 class DefaultAppContainer: AppContainer {
-    private var baseUrl = "https://android-kotlin-fun-mars-server.appspot.com/amphibians/"
+    private var baseUrl = "https://android-kotlin-fun-mars-server.appspot.com/"
 
-    private val  retrofit: Retrofit = Retrofit.Builder()
+    private val retrofit: Retrofit = Retrofit.Builder()
         .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
         .baseUrl(baseUrl)
         .build()
@@ -23,7 +23,7 @@ class DefaultAppContainer: AppContainer {
     }
 
     override val amphibiansRepository: AmphibiansRepository by lazy {
-        NetworkAmphibiansRepository(retrofitService)
+        DefaultAmphibiansRepository(retrofitService)
     }
 
 }

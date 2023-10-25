@@ -4,16 +4,13 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AmphibiansItem (
-    @SerialName(value = "name")
+data class Amphibian(
+    @SerialName("name")
     val name: String,
-
-    @SerialName(value = "type")
+    @SerialName("type")
     val type: String,
-
-    @SerialName(value = "description")
+    @SerialName("description")
     val description: String,
-
-    @SerialName(value = "img_src")
-    val imgSrc: String,
+    @SerialName("img_src")
+    val imgSrc: String
 )
